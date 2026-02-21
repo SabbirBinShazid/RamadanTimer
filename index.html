@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhaka Ramadan Timer 2026 | © Sabbir Bin Shazid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #011c15;
+            --bg-light: #04402e;
+            --gold: #d4af37;
+            --gold-light: #fef08a;
+            --text-main: #f8fafc;
+            --card-bg: rgba(2, 28, 21, 0.85);
+            --warning-glow: rgba(245, 158, 11, 0.7);
+            --event-glow: rgba(16, 185, 129, 0.7);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+                linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+                linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+                linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+                linear-gradient(60deg, rgba(212, 175, 55, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(212, 175, 55, 0.1) 75%, rgba(212, 175, 55, 0.1)),
+                linear-gradient(60deg, rgba(212, 175, 55, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(212, 175, 55, 0.1) 75%, rgba(212, 175, 55, 0.1));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        /* Mobile Optimized Audio Controls */
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            z-index: 10;
+        }
+
+        .audio-btn {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .audio-btn:hover { background: rgba(212, 175, 55, 0.4); }
+        .audio-btn.hidden { display: none; }
+
+        /* Mobile Optimized Container */
+        .container {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 2rem 1.5rem 1.5rem; 
+            border-radius: 90px 90px 15px 15px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(212, 175, 55, 0.4);
+            text-align: center;
+            max-width: 340px; 
+            width: 85%;
+            border-top: 3px solid var(--gold);
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+            transition: all 0.4s ease;
+            z-index: 10;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 2rem; 
+            color: var(--gold);
+            margin-bottom: -5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        h1 { 
+            margin-top: 0.5rem; 
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem; 
+            color: var(--text-main); 
+            letter-spacing: 1px;
+            margin-bottom: 0.2rem;
+        }
+        
+        h2 { 
+            margin: 0; 
+            font-size: 0.85rem; 
+            font-weight: 400; 
+            color: var(--gold-light); 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .ramadan-date {
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-top: 5px;
+            background: rgba(212, 175, 55, 0.1);
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 15px;
+        }
+        
+        .current-time {
+            font-size: 1rem;
+            margin: 1.2rem 0 1.5rem;
+            font-weight: 300;
+            color: #cbd5e1;
+            background: rgba(0,0,0,0.4);
+            display: inline-block;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .next-event-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold-light);
+            margin-bottom: 0.2rem;
+        }
+
+        .countdown {
+            font-size: 3.5rem; 
+            font-weight: 700;
+            margin: 0;
+            font-variant-numeric: tabular-nums;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            line-height: 1.1;
+        }
+
+        .target-time { 
+            font-size: 1rem; 
+            color: var(--gold); 
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(248, 250, 252, 0.5);
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        @keyframes pulseWarning {
+            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px var(--warning-glow), inset 0 0 15px var(--warning-glow); border-color: #f59e0b; }
+            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px var(--warning-glow), inset 0 0 30px var(--warning-glow); border-color: #f59e0b; }
+            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px var(--warning-glow), inset 0 0 15px var(--warning-glow); border-color: #f59e0b; }
+        }
+
+        @keyframes pulseEvent {
+            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px var(--event-glow), inset 0 0 20px var(--event-glow); border-color: #10b981; }
+            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 60px var(--event-glow), inset 0 0 40px var(--event-glow); border-color: #10b981; }
+            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px var(--event-glow), inset 0 0 20px var(--event-glow); border-color: #10b981; }
+        }
+
+        .flash-warning { animation: pulseWarning 1s infinite; }
+        .flash-now { animation: pulseEvent 0.5s infinite; }
+    </style>
+</head>
+<body>
+
+    <audio id="sirenAudio" src="https://www.soundjay.com/misc_c2026/censor-beep-3.mp3" preload="auto"></audio>
+
+    <div class="audio-controls">
+        <button id="enableAudioBtn" class="audio-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            Enable Alarm
+        </button>
+        <button id="testSoundBtn" class="audio-btn">
+            ▶ Test Sound
+        </button>
+    </div>
+
+    <div class="container" id="timerCard">
+        <div class="arabic-text">رمضان كريم</div>
+        <h1>Ramadan Kareem</h1>
+        <h2>Dhaka • 1447 Hijri</h2>
+        
+        <div id="ramadanDateDisplay" class="ramadan-date">Loading Date...</div>
+        
+        <div class="current-time" id="currentTime">--:--:--</div>
+
+        <div class="next-event-label" id="eventLabel">Loading...</div>
+        <div class="countdown" id="countdown">--:--:--</div>
+        <div class="target-time" id="targetTimeDisplay">Target: --:--</div>
+    </div>
+
+    <div class="footer">
+        &copy; Sabbir Bin Shazid
+    </div>
+
+    <script>
+        const ramadanData = [
+            { day: 1, date: "2026-02-19", sehri: "05:12", iftar: "17:58" },
+            { day: 2, date: "2026-02-20", sehri: "05:11", iftar: "17:58" },
+            { day: 3, date: "2026-02-21", sehri: "05:11", iftar: "17:59" },
+            { day: 4, date: "2026-02-22", sehri: "05:10", iftar: "17:59" },
+            { day: 5, date: "2026-02-23", sehri: "05:09", iftar: "18:00" },
+            { day: 6, date: "2026-02-24", sehri: "05:08", iftar: "18:00" },
+            { day: 7, date: "2026-02-25", sehri: "05:08", iftar: "18:01" },
+            { day: 8, date: "2026-02-26", sehri: "05:07", iftar: "18:01" },
+            { day: 9, date: "2026-02-27", sehri: "05:06", iftar: "18:02" },
+            { day: 10, date: "2026-02-28", sehri: "05:05", iftar: "18:02" },
+            { day: 11, date: "2026-03-01", sehri: "05:05", iftar: "18:03" },
+            { day: 12, date: "2026-03-02", sehri: "05:04", iftar: "18:03" },
+            { day: 13, date: "2026-03-03", sehri: "05:03", iftar: "18:04" },
+            { day: 14, date: "2026-03-04", sehri: "05:02", iftar: "18:04" },
+            { day: 15, date: "2026-03-05", sehri: "05:01", iftar: "18:05" },
+            { day: 16, date: "2026-03-06", sehri: "05:00", iftar: "18:05" },
+            { day: 17, date: "2026-03-07", sehri: "04:59", iftar: "18:06" },
+            { day: 18, date: "2026-03-08", sehri: "04:58", iftar: "18:06" },
+            { day: 19, date: "2026-03-09", sehri: "04:57", iftar: "18:07" },
+            { day: 20, date: "2026-03-10", sehri: "04:57", iftar: "18:07" },
+            { day: 21, date: "2026-03-11", sehri: "04:56", iftar: "18:07" },
+            { day: 22, date: "2026-03-12", sehri: "04:55", iftar: "18:08" },
+            { day: 23, date: "2026-03-13", sehri: "04:54", iftar: "18:08" },
+            { day: 24, date: "2026-03-14", sehri: "04:53", iftar: "18:09" },
+            { day: 25, date: "2026-03-15", sehri: "04:52", iftar: "18:09" },
+            { day: 26, date: "2026-03-16", sehri: "04:51", iftar: "18:10" },
+            { day: 27, date: "2026-03-17", sehri: "04:50", iftar: "18:10" },
+            { day: 28, date: "2026-03-18", sehri: "04:49", iftar: "18:10" },
+            { day: 29, date: "2026-03-19", sehri: "04:48", iftar: "18:11" },
+            { day: 30, date: "2026-03-20", sehri: "04:47", iftar: "18:11" }
+        ];
+
+        let sirenHasPlayed = false;
+        let activeEventName = "";
+
+        const audioBtn = document.getElementById('enableAudioBtn');
+        const testSoundBtn = document.getElementById('testSoundBtn');
+        const sirenAudio = document.getElementById('sirenAudio');
+
+        audioBtn.addEventListener('click', () => {
+            sirenAudio.play().then(() => {
+                sirenAudio.pause();
+                sirenAudio.currentTime = 0;
+                audioBtn.innerHTML = "✓ Enabled";
+                setTimeout(() => audioBtn.classList.add('hidden'), 2000);
+            }).catch(e => console.log("Audio unlock failed", e));
+        });
+
+        testSoundBtn.addEventListener('click', () => {
+            sirenAudio.currentTime = 0; 
+            sirenAudio.play().catch(e => alert("Please tap 'Enable Alarm' first."));
+        });
+
+        function getOrdinal(n) {
+            let s = ["th", "st", "nd", "rd"], v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
+
+        function getTargetDateObj(dateStr, timeStr) {
+            return new Date(`${dateStr}T${timeStr}:00`);
+        }
+
+        function formatTime12Hour(timeStr) {
+            let [hours, minutes] = timeStr.split(':');
+            let period = 'AM';
+            hours = parseInt(hours);
+            if (hours >= 12) {
+                period = 'PM';
+                if (hours > 12) hours -= 12;
+            }
+            if (hours === 0) hours = 12;
+            return `${hours}:${minutes} ${period}`;
+        }
+
+        function getNextEvent() {
+            const now = new Date();
+            let nextEvent = null;
+
+            for (let i = 0; i < ramadanData.length; i++) {
+                const dayData = ramadanData[i];
+                const sehriTime = getTargetDateObj(dayData.date, dayData.sehri);
+                const iftarTime = getTargetDateObj(dayData.date, dayData.iftar);
+
+                if (now < sehriTime) {
+                    nextEvent = { name: "Sehri", timeObj: sehriTime, timeStr: dayData.sehri };
+                    break;
+                } else if (now < iftarTime) {
+                    nextEvent = { name: "Iftar", timeObj: iftarTime, timeStr: dayData.iftar };
+                    break;
+                }
+            }
+            return nextEvent;
+        }
+
+        // Updated function to handle Islamic Date rollover after Iftar
+        function updateRamadanDate(now) {
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const todayStr = `${year}-${month}-${day}`;
+            
+            const currentDayIndex = ramadanData.findIndex(d => d.date === todayStr);
+            const dateDisplay = document.getElementById('ramadanDateDisplay');
+
+            if (currentDayIndex !== -1) {
+                const currentDayData = ramadanData[currentDayIndex];
+                const iftarTime = getTargetDateObj(currentDayData.date, currentDayData.iftar);
+                
+                let displayDayNumber = currentDayData.day;
+                
+                // Roll over to the next Islamic day if the current time is after today's Iftar
+                if (now > iftarTime) {
+                    displayDayNumber += 1;
+                }
+                
+                if (displayDayNumber > 30) {
+                     dateDisplay.innerText = "Eid Mubarak!";
+                } else {
+                     dateDisplay.innerText = `${getOrdinal(displayDayNumber)} Ramadan`;
+                }
+
+            } else {
+                // Handle dates outside the array (before or after Ramadan)
+                const ramadanStart = new Date("2026-02-19T00:00:00");
+                
+                if (now < ramadanStart) {
+                    const tomorrow = new Date(now);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    const tmrStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+                    
+                    // If it is the evening before the 1st fast (after 6 PM)
+                    if (ramadanData[0].date === tmrStr && now.getHours() >= 18) {
+                        dateDisplay.innerText = "1st Ramadan";
+                    } else {
+                        dateDisplay.innerText = "Approaching Ramadan";
+                    }
+                } else {
+                    dateDisplay.innerText = "Ramadan Concluded";
+                }
+            }
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            document.getElementById('currentTime').innerText = now.toLocaleTimeString('en-US', timeOptions);
+
+            updateRamadanDate(now);
+
+            const nextEvent = getNextEvent();
+            const cardElement = document.getElementById('timerCard');
+
+            if (!nextEvent) {
+                document.getElementById('eventLabel').innerText = "Eid Mubarak!";
+                document.getElementById('countdown').innerText = "00:00:00";
+                document.getElementById('targetTimeDisplay').innerText = "Ramadan has concluded";
+                cardElement.classList.remove('flash-warning', 'flash-now');
+                return;
+            }
+
+            if (activeEventName !== nextEvent.name) {
+                sirenHasPlayed = false;
+                activeEventName = nextEvent.name;
+            }
+
+            document.getElementById('eventLabel').innerText = `Time until ${nextEvent.name}`;
+            document.getElementById('targetTimeDisplay').innerText = `${nextEvent.name} is at ${formatTime12Hour(nextEvent.timeStr)}`;
+
+            const diffMs = nextEvent.timeObj - now;
+            const diffSeconds = Math.floor(diffMs / 1000);
+
+            const hours = Math.floor(diffSeconds / 3600);
+            const minutes = Math.floor((diffSeconds % 3600) / 60);
+            const seconds = diffSeconds % 60;
+
+            document.getElementById('countdown').innerText = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (diffSeconds <= 120 && diffSeconds > 0) {
+                cardElement.classList.add('flash-warning');
+                cardElement.classList.remove('flash-now');
+            } 
+            else if (diffSeconds <= 0 && diffSeconds > -5) {
+                cardElement.classList.remove('flash-warning'); 
+                cardElement.classList.add('flash-now');
+                document.getElementById('countdown').innerText = "00:00:00";
+                
+                if (!sirenHasPlayed) {
+                    sirenAudio.play().catch(e => console.log("Please click 'Enable Alarm' first."));
+                    sirenHasPlayed = true;
+                }
+            } 
+            else {
+                cardElement.classList.remove('flash-warning', 'flash-now');
+            }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+    </script>
+</body>
+</html>
