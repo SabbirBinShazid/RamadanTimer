@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhaka Ramadan Timer 2026 | © Sabbir Bin Shazid</title>
+    <title>Dhaka Ramadan Companion 2026 | © Sabbir Bin Shazid</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --bg-dark: #011c15;
@@ -13,216 +15,235 @@
             --gold-light: #fef08a;
             --text-main: #f8fafc;
             --card-bg: rgba(2, 28, 21, 0.85);
-            --warning-glow: rgba(245, 158, 11, 0.7);
-            --event-glow: rgba(16, 185, 129, 0.7);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-light) 100%);
             color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            position: relative;
-            overflow: hidden;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
-                linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
-                linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
-                linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
-                linear-gradient(60deg, rgba(212, 175, 55, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(212, 175, 55, 0.1) 75%, rgba(212, 175, 55, 0.1)),
-                linear-gradient(60deg, rgba(212, 175, 55, 0.1) 25%, transparent 25.5%, transparent 75%, rgba(212, 175, 55, 0.1) 75%, rgba(212, 175, 55, 0.1));
-            background-size: 80px 140px;
-            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-            opacity: 0.05;
-            z-index: -1;
-        }
-
-        /* Mobile Optimized Audio Controls */
-        .audio-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            z-index: 10;
-        }
-
-        .audio-btn {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--gold-light);
-            border: 1px solid var(--gold);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .audio-btn:hover { background: rgba(212, 175, 55, 0.4); }
-        .audio-btn.hidden { display: none; }
-
-        /* Mobile Optimized Container */
-        .container {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 2rem 1.5rem 1.5rem; 
-            border-radius: 90px 90px 15px 15px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(212, 175, 55, 0.4);
-            text-align: center;
-            max-width: 340px; 
-            width: 85%;
-            border-top: 3px solid var(--gold);
-            border-bottom: 3px solid var(--gold);
-            position: relative;
-            transition: all 0.4s ease;
-            z-index: 10;
-        }
-
-        .arabic-text {
-            font-family: 'Amiri', serif;
-            font-size: 2rem; 
-            color: var(--gold);
-            margin-bottom: -5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        h1 { 
-            margin-top: 0.5rem; 
-            font-family: 'Amiri', serif;
-            font-size: 1.6rem; 
-            color: var(--text-main); 
-            letter-spacing: 1px;
-            margin-bottom: 0.2rem;
-        }
-        
-        h2 { 
-            margin: 0; 
-            font-size: 0.85rem; 
-            font-weight: 400; 
-            color: var(--gold-light); 
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .ramadan-date {
-            font-size: 1.1rem;
-            color: var(--gold);
-            font-weight: 600;
-            margin-top: 5px;
-            background: rgba(212, 175, 55, 0.1);
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 15px;
-        }
-        
-        .current-time {
-            font-size: 1rem;
-            margin: 1.2rem 0 1.5rem;
-            font-weight: 300;
-            color: #cbd5e1;
-            background: rgba(0,0,0,0.4);
-            display: inline-block;
-            padding: 0.4rem 1.5rem;
-            border-radius: 40px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .next-event-label {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--gold-light);
-            margin-bottom: 0.2rem;
-        }
-
-        .countdown {
-            font-size: 3.5rem; 
-            font-weight: 700;
-            margin: 0;
-            font-variant-numeric: tabular-nums;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-            line-height: 1.1;
-        }
-
-        .target-time { 
-            font-size: 1rem; 
-            color: var(--gold); 
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        .footer {
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: rgba(248, 250, 252, 0.5);
-            letter-spacing: 1px;
-            z-index: 10;
-        }
+        .font-amiri { font-family: 'Amiri', serif; }
 
         @keyframes pulseWarning {
-            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px var(--warning-glow), inset 0 0 15px var(--warning-glow); border-color: #f59e0b; }
-            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px var(--warning-glow), inset 0 0 30px var(--warning-glow); border-color: #f59e0b; }
-            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px var(--warning-glow), inset 0 0 15px var(--warning-glow); border-color: #f59e0b; }
+            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px rgba(245, 158, 11, 0.7), inset 0 0 15px rgba(245, 158, 11, 0.7); border-color: #f59e0b; }
+            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px rgba(245, 158, 11, 0.7), inset 0 0 30px rgba(245, 158, 11, 0.7); border-color: #f59e0b; }
+            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px rgba(245, 158, 11, 0.7), inset 0 0 15px rgba(245, 158, 11, 0.7); border-color: #f59e0b; }
         }
 
         @keyframes pulseEvent {
-            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px var(--event-glow), inset 0 0 20px var(--event-glow); border-color: #10b981; }
-            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 60px var(--event-glow), inset 0 0 40px var(--event-glow); border-color: #10b981; }
-            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px var(--event-glow), inset 0 0 20px var(--event-glow); border-color: #10b981; }
+            0% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(16, 185, 129, 0.7), inset 0 0 20px rgba(16, 185, 129, 0.7); border-color: #10b981; }
+            50% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 60px rgba(16, 185, 129, 0.7), inset 0 0 40px rgba(16, 185, 129, 0.7); border-color: #10b981; }
+            100% { box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(16, 185, 129, 0.7), inset 0 0 20px rgba(16, 185, 129, 0.7); border-color: #10b981; }
         }
 
         .flash-warning { animation: pulseWarning 1s infinite; }
         .flash-now { animation: pulseEvent 0.5s infinite; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .view { display: none; width: 100%; max-width: 450px; flex-direction: column; align-items: center; }
+        .view.active { display: flex; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="p-4 pb-24">
 
     <audio id="sirenAudio" src="https://www.soundjay.com/misc_c2026/censor-beep-3.mp3" preload="auto"></audio>
 
-    <div class="audio-controls">
-        <button id="enableAudioBtn" class="audio-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            Enable Alarm
+    <div id="mainContent" class="w-full flex flex-col items-center mt-4">
+        
+        <!-- TIMER VIEW -->
+        <div id="timerView" class="view active">
+            <div class="flex gap-3 mb-6 z-10">
+                <button id="enableAudioBtn" class="bg-[#d4af37]/20 text-[#fef08a] border border-[#d4af37] px-4 py-2 rounded-full text-xs cursor-pointer transition-all hover:bg-[#d4af37]/40 flex items-center gap-2">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    Enable Alarm
+                </button>
+                <button id="testSoundBtn" class="bg-[#d4af37]/20 text-[#fef08a] border border-[#d4af37] px-4 py-2 rounded-full text-xs cursor-pointer transition-all hover:bg-[#d4af37]/40 flex items-center gap-2">
+                    <i data-lucide="play" class="w-4 h-4"></i>
+                    Test Sound
+                </button>
+            </div>
+
+            <div id="timerCard" class="bg-[rgba(2,28,21,0.85)] backdrop-blur-xl p-8 pt-12 rounded-[90px_90px_15px_15px] shadow-[0_20px_40px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(212,175,55,0.4)] text-center w-full border-y-[3px] border-[#d4af37] relative transition-all duration-500 z-10">
+                <div class="font-amiri text-4xl text-[#d4af37] mb-[-5px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">رمضان كريم</div>
+                <h1 class="mt-2 font-amiri text-3xl text-[#f8fafc] tracking-wider mb-1">Ramadan Kareem</h1>
+                <h2 class="m-0 text-[0.85rem] font-normal text-[#fef08a] tracking-[2px] uppercase">Dhaka • 1447 Hijri</h2>
+                
+                <div id="ramadanDayLabel" class="text-lg text-[#d4af37] font-semibold mt-2 bg-[#d4af37]/10 inline-block px-3 py-1 rounded-2xl">Loading...</div>
+                
+                <div id="currentTime" class="text-base my-5 font-light text-slate-300 bg-black/40 inline-block px-6 py-2 rounded-[40px] border border-[#d4af37]/20 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">--:--:--</div>
+
+                <div id="eventLabel" class="text-base uppercase tracking-[2px] text-[#fef08a] mb-1">Loading...</div>
+                <div id="countdown" class="text-[3.5rem] font-bold m-0 tabular-nums text-white leading-[1.1] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]">00:00:00</div>
+                <div id="targetTime" class="text-base text-[#d4af37] mt-2 font-medium">Target: --:--</div>
+
+                <div class="mt-8 w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/10">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-[#d4af37] to-[#fef08a] w-0 transition-all duration-1000"></div>
+                </div>
+            </div>
+
+            <div class="mt-6 w-full bg-[#d4af37]/5 border border-[#d4af37]/20 p-4 rounded-2xl text-center">
+                <i data-lucide="heart" class="w-4 h-4 text-[#d4af37] mx-auto mb-2"></i>
+                <p id="inspirationText" class="text-xs italic text-slate-300 mb-1">"The best charity is that given in Ramadan."</p>
+                <p id="inspirationSource" class="text-[10px] text-[#fef08a]/60 uppercase tracking-widest">— Hadith</p>
+            </div>
+        </div>
+
+        <!-- SCHEDULE VIEW -->
+        <div id="scheduleView" class="view">
+            <div class="w-full bg-[rgba(2,28,21,0.85)] backdrop-blur-xl rounded-3xl p-6 border border-[#d4af37]/30 shadow-2xl overflow-hidden flex flex-col max-h-[70vh]">
+                <h3 class="text-xl font-amiri text-[#d4af37] mb-4 text-center">Ramadan Schedule 2026</h3>
+                <div class="overflow-y-auto pr-2 custom-scrollbar">
+                    <table class="w-full text-left text-sm">
+                        <thead class="sticky top-0 bg-[#011c15] text-[#fef08a]/70 uppercase text-[10px] tracking-widest border-b border-[#d4af37]/20">
+                            <tr>
+                                <th class="py-2 px-1">Day</th>
+                                <th class="py-2 px-1">Date</th>
+                                <th class="py-2 px-1">Sehri</th>
+                                <th class="py-2 px-1">Iftar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleTableBody" class="divide-y divide-white/5">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRAYERS VIEW -->
+        <div id="prayersView" class="view">
+            <div class="w-full bg-[rgba(2,28,21,0.85)] backdrop-blur-xl p-6 rounded-3xl border border-[#d4af37]/30 shadow-xl">
+                <h3 class="text-xl font-amiri text-[#d4af37] mb-6 text-center underline underline-offset-8">Daily Prayer Times</h3>
+                <div id="prayerTimesList" class="space-y-4">
+                    <!-- Injected via JS -->
+                </div>
+                <div class="mt-6 flex items-center gap-2 text-[10px] text-[#fef08a]/40 justify-center">
+                    <i data-lucide="info" class="w-3 h-3"></i>
+                    <span>Times are approximate for Dhaka, Bangladesh</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ZAKAT VIEW -->
+        <div id="zakatView" class="view">
+            <div class="w-full bg-[rgba(2,28,21,0.85)] backdrop-blur-xl rounded-3xl p-6 border border-[#d4af37]/30 shadow-2xl">
+                <h3 class="text-xl font-amiri text-[#d4af37] mb-6 text-center">Zakat Calculator</h3>
+                <div class="space-y-4 mb-8">
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-[#fef08a]/60 uppercase tracking-widest ml-1">Cash & Bank</label>
+                        <input type="number" id="zakatCash" oninput="calculateZakat()" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-[#d4af37] outline-none transition-colors" placeholder="0">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-[#fef08a]/60 uppercase tracking-widest ml-1">Gold Value</label>
+                        <input type="number" id="zakatGold" oninput="calculateZakat()" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-[#d4af37] outline-none transition-colors" placeholder="0">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-[#fef08a]/60 uppercase tracking-widest ml-1">Silver Value</label>
+                        <input type="number" id="zakatSilver" oninput="calculateZakat()" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-[#d4af37] outline-none transition-colors" placeholder="0">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-[#fef08a]/60 uppercase tracking-widest ml-1">Investments</label>
+                        <input type="number" id="zakatInvest" oninput="calculateZakat()" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-[#d4af37] outline-none transition-colors" placeholder="0">
+                    </div>
+                </div>
+                <div class="bg-[#d4af37]/10 p-6 rounded-2xl border border-[#d4af37]/30 text-center">
+                    <div class="text-xs text-[#fef08a]/60 uppercase tracking-[3px] mb-2">Total Zakat Due</div>
+                    <div id="zakatResult" class="text-4xl font-bold text-white mb-2">৳ 0</div>
+                    <div id="zakatNote" class="text-[10px] text-[#fef08a]/40">Assets are below Nisab threshold</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DHIKR VIEW -->
+        <div id="tasbihView" class="view">
+            <div class="w-full bg-[rgba(2,28,21,0.85)] backdrop-blur-xl p-10 rounded-[50px] border border-[#d4af37]/30 shadow-2xl text-center">
+                <h3 class="text-[#d4af37] font-amiri text-2xl mb-8">Digital Tasbih</h3>
+                <div class="relative inline-block mb-10">
+                    <div id="tasbihCount" class="text-7xl font-bold text-white tabular-nums drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">0</div>
+                    <div class="text-[10px] text-[#fef08a]/50 uppercase tracking-[4px] mt-2">Total Counts</div>
+                </div>
+                
+                <div class="flex flex-col gap-6 items-center">
+                    <button onclick="incrementTasbih()" class="w-32 h-32 rounded-full bg-gradient-to-br from-[#d4af37] to-[#fef08a] shadow-[0_10px_30px_rgba(212,175,55,0.4)] flex items-center justify-center text-[#011c15] active:scale-95 transition-transform">
+                        <i data-lucide="plus" class="w-12 h-12 stroke-[3]"></i>
+                    </button>
+                    
+                    <button onclick="resetTasbih()" class="flex items-center gap-2 text-[#fef08a]/60 hover:text-[#d4af37] transition-colors text-sm uppercase tracking-widest">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MORE VIEW -->
+        <div id="moreView" class="view">
+            <div class="w-full space-y-6">
+                <div class="space-y-4">
+                    <h3 class="text-[#d4af37] font-amiri text-xl flex items-center gap-2"><i data-lucide="book-open" class="w-5 h-5"></i> Essential Duas</h3>
+                    <div id="duasList" class="space-y-4">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <div class="bg-[rgba(2,28,21,0.85)] backdrop-blur-xl p-6 rounded-3xl border border-[#d4af37]/30 shadow-xl">
+                    <h3 class="text-[#d4af37] font-amiri text-xl mb-4 flex items-center gap-2"><i data-lucide="list-checks" class="w-5 h-5"></i> Sunnah Checklist</h3>
+                    <div id="sunnahList" class="space-y-3">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[rgba(2,28,21,0.8)] backdrop-blur-2xl border border-[#d4af37]/30 rounded-full px-3 py-2 flex items-center gap-1 shadow-2xl z-50 max-w-[95vw] overflow-x-auto no-scrollbar">
+        <button onclick="switchTab('timer')" class="nav-btn active flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#d4af37] bg-[#d4af37]/10">
+            <i data-lucide="clock" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider">Home</span>
         </button>
-        <button id="testSoundBtn" class="audio-btn">
-            ▶ Test Sound
+        <button onclick="switchTab('schedule')" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#fef08a]/60 hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+            <i data-lucide="calendar" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider hidden">Dates</span>
+        </button>
+        <button onclick="switchTab('prayers')" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#fef08a]/60 hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+            <i data-lucide="info" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider hidden">Prayers</span>
+        </button>
+        <button onclick="switchTab('zakat')" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#fef08a]/60 hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+            <i data-lucide="calculator" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider hidden">Zakat</span>
+        </button>
+        <button onclick="switchTab('tasbih')" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#fef08a]/60 hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+            <i data-lucide="hash" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider hidden">Dhikr</span>
+        </button>
+        <button onclick="switchTab('more')" class="nav-btn flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 text-[#fef08a]/60 hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+            <i data-lucide="book-open" class="w-[18px] h-[18px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-wider hidden">More</span>
         </button>
     </div>
 
-    <div class="container" id="timerCard">
-        <div class="arabic-text">رمضان كريم</div>
-        <h1>Ramadan Kareem</h1>
-        <h2>Dhaka • 1447 Hijri</h2>
-        
-        <div id="ramadanDateDisplay" class="ramadan-date">Loading Date...</div>
-        
-        <div class="current-time" id="currentTime">--:--:--</div>
-
-        <div class="next-event-label" id="eventLabel">Loading...</div>
-        <div class="countdown" id="countdown">--:--:--</div>
-        <div class="target-time" id="targetTimeDisplay">Target: --:--</div>
-    </div>
-
-    <div class="footer">
+    <div class="fixed bottom-2 left-1/2 -translate-x-1/2 text-[10px] text-white/30 tracking-widest uppercase pointer-events-none">
         &copy; Sabbir Bin Shazid
     </div>
 
     <script>
+        lucide.createIcons();
+
         const ramadanData = [
             { day: 1, date: "2026-02-19", sehri: "05:12", iftar: "17:58" },
             { day: 2, date: "2026-02-20", sehri: "05:11", iftar: "17:58" },
@@ -256,175 +277,252 @@
             { day: 30, date: "2026-03-20", sehri: "04:47", iftar: "18:11" }
         ];
 
+        const prayers = [
+            { name: "Fajr", time: "05:12" },
+            { name: "Dhuhr", time: "12:15" },
+            { name: "Asr", time: "16:20" },
+            { name: "Maghrib", time: "17:58" },
+            { name: "Isha", time: "19:15" }
+        ];
+
+        const inspirations = [
+            { text: "Fasting is a shield with which a servant protects himself from the Fire.", source: "Hadith (Ahmad)" },
+            { text: "The best charity is that given in Ramadan.", source: "Hadith (Tirmidhi)" },
+            { text: "Ramadan is the month whose beginning is mercy, its middle is forgiveness and its end is emancipation from the fire.", source: "Hadith (Ibn Khuzaymah)" },
+            { text: "He who gives food for a fasting person to break his fast, he will receive the same reward as him.", source: "Hadith (Tirmidhi)" }
+        ];
+
+        const duas = [
+            {
+                title: "Dua for Sehri (Intention)",
+                arabic: "وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ",
+                transliteration: "Wa bi-sawmi ghadinn nawaiytu min shahri ramadan",
+                meaning: "I intend to keep the fast for tomorrow in the month of Ramadan."
+            },
+            {
+                title: "Dua for Iftar",
+                arabic: "اللَّهُمَّ اِنِّى لَكَ صُمْتُ وَبِكَ امنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَى رِزْقِكَ اَفْطَرْتُ",
+                transliteration: "Allahumma inni laka sumtu wa bika aamantu wa 'alayka tawakkaltu wa 'ala rizqika aftartu",
+                meaning: "O Allah! I fasted for You and I believe in You and I put my trust in You and I break my fast with Your sustenance."
+            }
+        ];
+
+        const sunnahs = [
+            "Eating Suhoor (Pre-dawn meal)",
+            "Breaking fast with dates or water",
+            "Hastening to break the fast (Iftar)",
+            "Performing Taraweeh prayers",
+            "Increasing Quran recitation",
+            "Giving Sadaqah (Charity)",
+            "Maintaining good character and patience"
+        ];
+
+        let audioEnabled = false;
         let sirenHasPlayed = false;
         let activeEventName = "";
-
-        const audioBtn = document.getElementById('enableAudioBtn');
-        const testSoundBtn = document.getElementById('testSoundBtn');
+        let tasbihCount = 0;
         const sirenAudio = document.getElementById('sirenAudio');
 
-        audioBtn.addEventListener('click', () => {
-            sirenAudio.play().then(() => {
-                sirenAudio.pause();
-                sirenAudio.currentTime = 0;
-                audioBtn.innerHTML = "✓ Enabled";
-                setTimeout(() => audioBtn.classList.add('hidden'), 2000);
-            }).catch(e => console.log("Audio unlock failed", e));
-        });
-
-        testSoundBtn.addEventListener('click', () => {
-            sirenAudio.currentTime = 0; 
-            sirenAudio.play().catch(e => alert("Please tap 'Enable Alarm' first."));
-        });
+        function formatTime12(timeStr) {
+            let [h, m] = timeStr.split(':');
+            let p = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            return `${h}:${m} ${p}`;
+        }
 
         function getOrdinal(n) {
             let s = ["th", "st", "nd", "rd"], v = n % 100;
             return n + (s[(v - 20) % 10] || s[v] || s[0]);
         }
 
-        function getTargetDateObj(dateStr, timeStr) {
-            return new Date(`${dateStr}T${timeStr}:00`);
-        }
-
-        function formatTime12Hour(timeStr) {
-            let [hours, minutes] = timeStr.split(':');
-            let period = 'AM';
-            hours = parseInt(hours);
-            if (hours >= 12) {
-                period = 'PM';
-                if (hours > 12) hours -= 12;
-            }
-            if (hours === 0) hours = 12;
-            return `${hours}:${minutes} ${period}`;
-        }
-
-        function getNextEvent() {
-            const now = new Date();
-            let nextEvent = null;
-
-            for (let i = 0; i < ramadanData.length; i++) {
-                const dayData = ramadanData[i];
-                const sehriTime = getTargetDateObj(dayData.date, dayData.sehri);
-                const iftarTime = getTargetDateObj(dayData.date, dayData.iftar);
-
-                if (now < sehriTime) {
-                    nextEvent = { name: "Sehri", timeObj: sehriTime, timeStr: dayData.sehri };
-                    break;
-                } else if (now < iftarTime) {
-                    nextEvent = { name: "Iftar", timeObj: iftarTime, timeStr: dayData.iftar };
-                    break;
-                }
-            }
-            return nextEvent;
-        }
-
-        // Updated function to handle Islamic Date rollover after Iftar
-        function updateRamadanDate(now) {
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const todayStr = `${year}-${month}-${day}`;
-            
-            const currentDayIndex = ramadanData.findIndex(d => d.date === todayStr);
-            const dateDisplay = document.getElementById('ramadanDateDisplay');
-
-            if (currentDayIndex !== -1) {
-                const currentDayData = ramadanData[currentDayIndex];
-                const iftarTime = getTargetDateObj(currentDayData.date, currentDayData.iftar);
-                
-                let displayDayNumber = currentDayData.day;
-                
-                // Roll over to the next Islamic day if the current time is after today's Iftar
-                if (now > iftarTime) {
-                    displayDayNumber += 1;
-                }
-                
-                if (displayDayNumber > 30) {
-                     dateDisplay.innerText = "Eid Mubarak!";
-                } else {
-                     dateDisplay.innerText = `${getOrdinal(displayDayNumber)} Ramadan`;
-                }
-
-            } else {
-                // Handle dates outside the array (before or after Ramadan)
-                const ramadanStart = new Date("2026-02-19T00:00:00");
-                
-                if (now < ramadanStart) {
-                    const tomorrow = new Date(now);
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    const tmrStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
-                    
-                    // If it is the evening before the 1st fast (after 6 PM)
-                    if (ramadanData[0].date === tmrStr && now.getHours() >= 18) {
-                        dateDisplay.innerText = "1st Ramadan";
-                    } else {
-                        dateDisplay.innerText = "Approaching Ramadan";
-                    }
-                } else {
-                    dateDisplay.innerText = "Ramadan Concluded";
-                }
-            }
-        }
-
         function updateTimer() {
             const now = new Date();
-            
-            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-            document.getElementById('currentTime').innerText = now.toLocaleTimeString('en-US', timeOptions);
+            document.getElementById('currentTime').innerText = now.toLocaleTimeString('en-US', { hour12: true });
 
-            updateRamadanDate(now);
-
-            const nextEvent = getNextEvent();
-            const cardElement = document.getElementById('timerCard');
-
-            if (!nextEvent) {
-                document.getElementById('eventLabel').innerText = "Eid Mubarak!";
-                document.getElementById('countdown').innerText = "00:00:00";
-                document.getElementById('targetTimeDisplay').innerText = "Ramadan has concluded";
-                cardElement.classList.remove('flash-warning', 'flash-now');
-                return;
+            // Find next event
+            let nextEvent = null;
+            for (let d of ramadanData) {
+                const s = new Date(`${d.date}T${d.sehri}:00`);
+                const i = new Date(`${d.date}T${d.iftar}:00`);
+                if (now < s) { nextEvent = { name: 'Sehri', time: s, str: d.sehri, day: d.day }; break; }
+                if (now < i) { nextEvent = { name: 'Iftar', time: i, str: d.iftar, day: d.day }; break; }
             }
 
-            if (activeEventName !== nextEvent.name) {
-                sirenHasPlayed = false;
-                activeEventName = nextEvent.name;
+            // Ramadan Day Label
+            const todayStr = now.toISOString().split('T')[0];
+            const todayData = ramadanData.find(d => d.date === todayStr);
+            if (todayData) {
+                const iftarTime = new Date(`${todayData.date}T${todayData.iftar}:00`);
+                let dayNum = todayData.day;
+                if (now > iftarTime) dayNum++;
+                document.getElementById('ramadanDayLabel').innerText = dayNum > 30 ? "Eid Mubarak!" : `${getOrdinal(dayNum)} Ramadan`;
+            } else {
+                document.getElementById('ramadanDayLabel').innerText = "Approaching Ramadan";
             }
 
-            document.getElementById('eventLabel').innerText = `Time until ${nextEvent.name}`;
-            document.getElementById('targetTimeDisplay').innerText = `${nextEvent.name} is at ${formatTime12Hour(nextEvent.timeStr)}`;
-
-            const diffMs = nextEvent.timeObj - now;
-            const diffSeconds = Math.floor(diffMs / 1000);
-
-            const hours = Math.floor(diffSeconds / 3600);
-            const minutes = Math.floor((diffSeconds % 3600) / 60);
-            const seconds = diffSeconds % 60;
-
-            document.getElementById('countdown').innerText = 
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-            if (diffSeconds <= 120 && diffSeconds > 0) {
-                cardElement.classList.add('flash-warning');
-                cardElement.classList.remove('flash-now');
-            } 
-            else if (diffSeconds <= 0 && diffSeconds > -5) {
-                cardElement.classList.remove('flash-warning'); 
-                cardElement.classList.add('flash-now');
-                document.getElementById('countdown').innerText = "00:00:00";
+            if (nextEvent) {
+                if (activeEventName !== nextEvent.name) { activeEventName = nextEvent.name; sirenHasPlayed = false; }
                 
-                if (!sirenHasPlayed) {
-                    sirenAudio.play().catch(e => console.log("Please click 'Enable Alarm' first."));
-                    sirenHasPlayed = true;
+                document.getElementById('eventLabel').innerText = `Time until ${nextEvent.name}`;
+                document.getElementById('targetTime').innerText = `${nextEvent.name} at ${formatTime12(nextEvent.str)}`;
+                
+                const diff = Math.floor((nextEvent.time - now) / 1000);
+                const h = Math.max(0, Math.floor(diff / 3600));
+                const m = Math.max(0, Math.floor((diff % 3600) / 60));
+                const s = Math.max(0, diff % 60);
+                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+                // Progress
+                const dayData = ramadanData.find(d => d.day === nextEvent.day);
+                let total, elapsed;
+                if (nextEvent.name === 'Iftar') {
+                    total = nextEvent.time - new Date(`${dayData.date}T${dayData.sehri}:00`);
+                    elapsed = now - new Date(`${dayData.date}T${dayData.sehri}:00`);
+                } else {
+                    const prev = ramadanData.find(d => d.day === nextEvent.day - 1);
+                    const start = prev ? new Date(`${prev.date}T${prev.iftar}:00`) : new Date(now - 3600000);
+                    total = nextEvent.time - start;
+                    elapsed = now - start;
                 }
-            } 
-            else {
-                cardElement.classList.remove('flash-warning', 'flash-now');
+                const p = Math.min(100, Math.max(0, (elapsed / total) * 100));
+                document.getElementById('progressBar').style.width = p + '%';
+
+                // Alarms
+                if (diff <= 120 && diff > 0) document.getElementById('timerCard').classList.add('flash-warning');
+                else if (diff <= 0 && diff > -5) {
+                    document.getElementById('timerCard').classList.remove('flash-warning');
+                    document.getElementById('timerCard').classList.add('flash-now');
+                    if (audioEnabled && !sirenHasPlayed) { sirenAudio.play(); sirenHasPlayed = true; }
+                } else {
+                    document.getElementById('timerCard').classList.remove('flash-warning', 'flash-now');
+                }
             }
         }
 
-        updateTimer();
-        setInterval(updateTimer, 1000);
+        // Initialize Views
+        function initViews() {
+            // Schedule
+            const tbody = document.getElementById('scheduleTableBody');
+            const todayStr = new Date().toISOString().split('T')[0];
+            ramadanData.forEach(d => {
+                const tr = document.createElement('tr');
+                if (d.date === todayStr) tr.className = 'bg-[#d4af37]/20 text-white font-bold';
+                else tr.className = 'text-slate-300';
+                tr.innerHTML = `
+                    <td class="py-3 px-1">${d.day}</td>
+                    <td class="py-3 px-1">${new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
+                    <td class="py-3 px-1">${formatTime12(d.sehri)}</td>
+                    <td class="py-3 px-1">${formatTime12(d.iftar)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
 
+            // Prayers
+            const prayerList = document.getElementById('prayerTimesList');
+            prayers.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10';
+                div.innerHTML = `
+                    <span class="text-[#fef08a] font-medium tracking-widest uppercase text-xs">${p.name}</span>
+                    <span class="text-white font-bold tabular-nums">${formatTime12(p.time)}</span>
+                `;
+                prayerList.appendChild(div);
+            });
+
+            // Duas
+            const duasList = document.getElementById('duasList');
+            duas.forEach(d => {
+                const div = document.createElement('div');
+                div.className = 'bg-[rgba(2,28,21,0.85)] backdrop-blur-xl p-6 rounded-3xl border border-[#d4af37]/30 shadow-xl';
+                div.innerHTML = `
+                    <h4 class="text-[#d4af37] font-medium mb-3 text-sm uppercase tracking-widest">${d.title}</h4>
+                    <div class="font-amiri text-2xl text-white mb-4 text-right leading-relaxed" dir="rtl">${d.arabic}</div>
+                    <div class="text-[#fef08a]/80 italic text-sm mb-2 leading-relaxed">"${d.transliteration}"</div>
+                    <div class="text-slate-400 text-xs leading-relaxed">${d.meaning}</div>
+                `;
+                duasList.appendChild(div);
+            });
+
+            // Sunnah
+            const sunnahList = document.getElementById('sunnahList');
+            sunnahs.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group';
+                div.innerHTML = `
+                    <div class="w-5 h-5 rounded border border-[#d4af37]/40 flex items-center justify-center group-hover:border-[#d4af37] transition-colors">
+                        <i data-lucide="check" class="w-3 h-3 text-[#d4af37] opacity-0 group-hover:opacity-100"></i>
+                    </div>
+                    <span class="text-xs text-slate-300">${s}</span>
+                `;
+                sunnahList.appendChild(div);
+            });
+
+            // Inspiration
+            const day = new Date().getDate();
+            const insp = inspirations[day % inspirations.length];
+            document.getElementById('inspirationText').innerText = `"${insp.text}"`;
+            document.getElementById('inspirationSource').innerText = `— ${insp.source}`;
+        }
+
+        // Zakat Logic
+        function calculateZakat() {
+            const cash = parseFloat(document.getElementById('zakatCash').value) || 0;
+            const gold = parseFloat(document.getElementById('zakatGold').value) || 0;
+            const silver = parseFloat(document.getElementById('zakatSilver').value) || 0;
+            const invest = parseFloat(document.getElementById('zakatInvest').value) || 0;
+            
+            const total = cash + gold + silver + invest;
+            const threshold = 80000; // Example BDT
+            
+            const result = total >= threshold ? total * 0.025 : 0;
+            document.getElementById('zakatResult').innerText = `৳ ${result.toLocaleString()}`;
+            document.getElementById('zakatNote').innerText = total < threshold ? "Assets are below Nisab threshold" : "Calculated at 2.5% of total wealth";
+        }
+
+        // Tasbih Logic
+        function incrementTasbih() {
+            tasbihCount++;
+            document.getElementById('tasbihCount').innerText = tasbihCount;
+        }
+        function resetTasbih() {
+            tasbihCount = 0;
+            document.getElementById('tasbihCount').innerText = tasbihCount;
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(tabId + 'View').classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-[#d4af37]/10', 'text-[#d4af37]');
+                btn.classList.add('text-[#fef08a]/60');
+                btn.querySelector('span').classList.add('hidden');
+            });
+
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.add('active', 'bg-[#d4af37]/10', 'text-[#d4af37]');
+            activeBtn.classList.remove('text-[#fef08a]/60');
+            activeBtn.querySelector('span').classList.remove('hidden');
+        }
+
+        // Audio Controls
+        document.getElementById('enableAudioBtn').onclick = () => {
+            sirenAudio.play().then(() => {
+                sirenAudio.pause(); sirenAudio.currentTime = 0;
+                audioEnabled = true;
+                document.getElementById('enableAudioBtn').innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Enabled';
+                lucide.createIcons();
+            });
+        };
+        document.getElementById('testSoundBtn').onclick = () => {
+            sirenAudio.currentTime = 0; sirenAudio.play();
+        };
+
+        initViews();
+        setInterval(updateTimer, 1000);
+        updateTimer();
+        lucide.createIcons();
     </script>
 </body>
 </html>
